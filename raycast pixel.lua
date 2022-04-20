@@ -18,7 +18,7 @@ while task.wait()*10 do
     for x = 1, #Pixels do
         for z = 1,#Pixels[x] do
             local pixel = Pixels[x][z]
-            local ray = workspace:Raycast(pixel.Position, Pixel.Position - Vector3.new(0, 100, 0))
+            local ray = workspace:Raycast(pixel.Position, pixel.Position - Vector3.new(0, 100, 0))
             pixel.Color = ray.Instance.Color
         end
     end
