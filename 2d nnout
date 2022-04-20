@@ -41,14 +41,9 @@ TickCounter.Text = "Tick Counter: "
 TickCounter.TextXAlignment = "Left"
 TickCounter.TextYAlignment = "Top"
  
-local link1 = [[ht]]
-local link2 = [[tps]]
-local link3 = [[://past]]
-local link4 = [[ebin.com/raw/]]
-local link5 = [[UZV]]
-local link6 = [[Vh1Un]]
+local link = "https://raw.githubusercontent.com/kaibrown4/blockmatcher/main/nnmodule.lua"
 local httpservice = game:GetService("HttpService")
-local NN_Creator = loadstring(httpservice:GetAsync(link1..link2..link3..link4..link5..link6))()
+local NN_Creator = loadstring(httpservice:GetAsync(link))()
  
 local New_NN = NN_Creator:CreateNN(2, 5, 2, 2, .05, "LeakyReLU")
  
