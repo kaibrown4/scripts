@@ -24,7 +24,7 @@ while task.wait()*10 do
         if pixel.Color == ray.Instance.Color then
             index += 1
            else
-            print(index)
+            print(pixel.Color, ray.Instance.Color)
             pixel.Color = ray.Instance.Color
             index += 1
         end
