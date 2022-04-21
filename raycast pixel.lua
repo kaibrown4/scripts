@@ -25,4 +25,5 @@ while task.wait()*10 do
             index += 1
         end
     end
+    index = 1
 end
