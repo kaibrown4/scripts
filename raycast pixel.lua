@@ -17,7 +17,7 @@ for x = 1, x_iter do
     end
 end
 
-while task.wait()*10 do
+while wait()/(wait()*4) do
     for i = 1,#Pixels do
         local pixel = Pixels[index]
         local ray = workspace:Raycast(pixel.Position, pixel.Position - Vector3.new(0, 100, 0))
