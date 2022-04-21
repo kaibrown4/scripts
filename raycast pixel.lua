@@ -23,6 +23,9 @@ while task.wait()*10 do
         local ray = workspace:Raycast(pixel.Position, pixel.Position - Vector3.new(0, 100, 0))
         if pixel.Color == ray.Instance.Color then
             index += 1
+           else
+            pixel.Color = ray.Instance.Color
+            index += 1
         end
     end
     index = 1
