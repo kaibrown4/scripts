@@ -7,7 +7,6 @@ Frame_Part.Transparency = 1
 local SurfaceGui_Display = Instance.new("SurfaceGui", Frame_Part) -- Get the Part's SurfaceGui
 local SurfaceGui_Frame = Instance.new("Frame", SurfaceGui_Display) -- Get the Frame Display
 SurfaceGui_Frame.BackgroundColor3 = Color3.new()
-SurfaceGui_Frame.BorderColor3 = Color3.new(1,1,1)
 SurfaceGui_Frame.Size = UDim2.fromScale(1, 1)
 local y = owner.Character.HumanoidRootPart.Position.Y
 local frame = 0
