@@ -22,7 +22,7 @@ while wait()/(wait()*4) do
         local pixel = Pixels[index]
         local raycastParams = RaycastParams.new()
         raycastParams.FilterType = Enum.RaycastFilterType.Whitelist
-        raycastParams.FilterDescendantsInstances = script:GetChildren()
+        raycastParams.FilterDescendantsInstances = {script:GetChildren()}
         raycastParams.IgnoreWater = true
         local ray = workspace:Raycast(pixel.Position, pixel.Position - Vector3.new(0, 100, 0), raycastParams)
         if pixel.Color == ray.Instance.Color then
