@@ -21,7 +21,7 @@ while wait()/(wait()*4) do
     for i = 1,#Pixels do
         local pixel = Pixels[index]
         local raycastParams = RaycastParams.new()
-        raycastParams.FilterType = Enum.RaycastFilterType.Whitelist
+        raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
         raycastParams.FilterDescendantsInstances = {script:GetChildren()}
         raycastParams.IgnoreWater = true
         local ray = workspace:Raycast(pixel.Position, pixel.Position - Vector3.new(0, 100, 0), raycastParams)
