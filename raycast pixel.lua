@@ -26,6 +26,7 @@ while wait()/(wait()*4) do
         raycastParams.IgnoreWater = true
         local ray = workspace:Raycast(pixel.Position, pixel.Position - Vector3.new(0, 100, 0), raycastParams)
         if pixel.Color == ray.Instance.Color then
+            pixel.Transparency = 1
             index += 1
            else
             pixel.Color = ray.Instance.Color
