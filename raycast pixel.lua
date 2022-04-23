@@ -17,7 +17,7 @@ for x = 1, x_iter do
     end
 end
 
-while wait()/(wait()*4) do
+while task.wait() do
     for i = 1,#Pixels do
         local pixel = Pixels[index]
         local raycastParams = RaycastParams.new()
