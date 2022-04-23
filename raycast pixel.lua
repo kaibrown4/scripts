@@ -1,5 +1,5 @@
-local x_iter = 30
-local z_iter = 30
+local x_iter = 11
+local z_iter = 11
 local pos = owner.Character.HumanoidRootPart.Position
 local Pixels = {}
 local t = 0
@@ -26,10 +26,11 @@ while task.wait() do
         raycastParams.IgnoreWater = true
         local ray = workspace:Raycast(pixel.Position, pixel.Position - Vector3.new(0, 100, 0), raycastParams)
         if pixel.Color == ray.Instance.Color then
-            pixel.Transparency = 1
             index += 1
+            pixel.Transparency = 1
            else
             pixel.Color = ray.Instance.Color
+            pixel.Transparency = 0
             index += 1
         end
     end
