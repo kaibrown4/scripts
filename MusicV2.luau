@@ -9,14 +9,17 @@ type Track = {
 
 local instruments = {
 	"sine";
+	"square";
 }
 
 local sounds = {
 	sine = 146750669;
+	square = 9040512330;
 }
 
 local durations = {
 	sine = 1.5;
+	square = 1.5;
 }
 
 local t1: Track = {
