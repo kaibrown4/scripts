@@ -10,16 +10,25 @@ type Track = {
 local instruments = {
 	"sine";
 	"square";
+	"sawtooth";
+	"triangle";
+	"bass";
 }
 
 local sounds = {
 	sine = 146750669;
 	square = 9040512330;
+	sawtooth = 9040512075;
+	triangle = 9085536418;
+	bass = 12221944;
 }
 
 local durations = {
 	sine = 1.5;
 	square = 1.5;
+	sawtooth = 1.5;
+	triangle = 1.5;
+	bass = 1;
 }
 
 local t1: Track = {
@@ -218,14 +227,89 @@ local t3: Track = {
 	p = 1/4;
 }
 
+local t4: Track = {
+	notes = {
+		[0] = {59};
+		[126] = {66};
+		[2] = {64};
+		[124] = {67};
+		[4] = {66};
+		[122] = {69};
+		[6] = {59};
+		[120] = {64};
+		[8] = {64};
+		[118] = {59};
+		[10] = {66};
+		[116] = {69};
+		[12] = {59};
+		[114] = {64};
+		[14] = {64};
+		[112] = {59};
+		[16] = {59};
+		[110] = {64};
+		[18] = {64};
+		[108] = {59};
+		[20] = {66};
+		[106] = {69};
+		[22] = {59};
+		[104] = {64};
+		[24] = {64};
+		[102] = {59};
+		[26] = {66};
+		[100] = {69};
+		[28] = {59};
+		[98] = {64};
+		[30] = {64};
+		[96] = {59};
+		[32] = {59};
+		[94] = {64};
+		[34] = {64};
+		[92] = {59};
+		[36] = {67};
+		[90] = {66};
+		[38] = {59};
+		[88] = {64};
+		[40] = {64};
+		[86] = {59};
+		[42] = {67};
+		[84] = {66};
+		[44] = {59};
+		[82] = {64};
+		[46] = {64};
+		[80] = {59};
+		[48] = {59};
+		[78] = {64};
+		[50] = {64};
+		[76] = {59};
+		[52] = {67};
+		[74] = {66};
+		[54] = {59};
+		[72] = {64};
+		[56] = {64};
+		[70] = {59};
+		[58] = {67};
+		[68] = {66};
+		[60] = {59};
+		[66] = {64};
+		[62] = {64};
+		[64] = {59};
+	};
+	tuning = -60;
+	inc = 2;
+	start = 0;
+	length = 126;
+	p = 1/8;
+}
+
 local track = 2
 local instr = "sine"
 track, instr = ...
 track = tonumber(track) or 2
 instr = tostring(instr) or "sine"
+local Nshift = 0
 local freqshift = 0
 
-local tracks: {Track} = {t1, t2, t3}
+local tracks: {Track} = {t1, t2, t3, t4}
 local sel: Track = tracks[track]
 
 local char = owner.Character
@@ -420,7 +504,7 @@ function load()
 end
 
 function tofrequency(pitch)
-	return 2^(pitch/12) + freqshift
+	return 2^((pitch + sel.tuning + Nshift)/12) + freqshift
 end
 
 function playnote(pitch)
@@ -450,7 +534,7 @@ function playnote(pitch)
 		end)
 	end
 	
-	sound.Volume = 0.04
+	sound.Volume = 0.06
 	sound:Play()
 	
 	return sound
@@ -485,7 +569,7 @@ function play(during: (...any) -> nil?)
 		if notes then
 			during(TIME, notes)
 			for i = 1,#notes do
-				playnote(notes[i] + sel.tuning)
+				playnote(notes[i])
 				a(ind+i)
 			end
 
@@ -513,6 +597,31 @@ function updinfo(TIME)
 	infotext.Text ..= "Instrument: "..instr.."\n"
 	infotext.Text ..= "Progress: "..math.round(TIME/sel.length*100).."%"
 end
+
+owner.Chatted:Connect(function(msg)
+	if msg:sub(1,8) == "nshift: " then
+		local num = tonumber(msg:sub(9))
+		if not num then
+			warn("invalid argument. nshift was not changed.")
+		else
+			Nshift = num
+		end
+	elseif msg:sub(1,8) == "fshift: " then
+		local num = tonumber(msg:sub(9))
+		if not num then
+			warn("invalid argument. fshift was not changed.")
+		else
+			freqshift = num
+		end
+	elseif msg:sub(1,7) == "instr: " then
+		local ainstr = msg:sub(8)
+		if not durations[ainstr] then
+			warn("invalid argument. instrument not found.")
+		else
+			instr = ainstr
+		end
+	end
+end)
 
 loadsounds()
 load()
