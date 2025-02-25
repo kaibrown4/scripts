@@ -151,6 +151,70 @@ local t2: Track = {
 	p = 1/8;
 }
 
+local t3: Track = {
+	notes = {
+		[0] = {74};
+		[4] = {84, 72};
+		[70] = {81};
+		[72] = {70, 82, 58};
+		[76] = {65, 82, 58, 70};
+		[78] = {84};
+		[16] = {74, 62};
+		[126] = {74};
+		[18] = {86, 74};
+		[124] = {71, 55, 67, 62};
+		[20] = {84, 72};
+		[122] = {67};
+		[22] = {80, 68};
+		[120] = {67, 55};
+		[88] = {57, 69};
+		[118] = {71};
+		[26] = {67, 79};
+		[116] = {55, 74, 67, 59};
+		[28] = {77, 65};
+		[114] = {79};
+		[30] = {79, 67};
+		[112] = {67, 55, 83};
+		[96] = {56, 68};
+		[110] = {82};
+		[108] = {80, 68, 63, 56};
+		[104] = {80, 56, 68};
+		[36] = {84, 72};
+		[102] = {79};
+		[38] = {81, 69};
+		[100] = {80, 60, 56, 68};
+		[40] = {83, 71};
+		[94] = {76};
+		[92] = {64, 57, 73, 69};
+		[90] = {69};
+		[44] = {79, 67};
+		[86] = {73};
+		[46] = {77, 65};
+		[84] = {57, 61, 69, 76};
+		[48] = {74, 62};
+		[82] = {81};
+		[50] = {86, 74};
+		[80] = {69, 57, 85};
+		[52] = {84, 72};
+		[6] = {81, 69};
+		[54] = {81, 69};
+		[8] = {83, 71};
+		[56] = {79, 67};
+		[14] = {77, 65};
+		[58] = {77, 65};
+		[12] = {79, 67};
+		[60] = {79, 67};
+		[64] = {58, 70};
+		[62] = {81, 69};
+		[68] = {70, 58, 62, 82};
+	};
+	tuning = -70;
+	inc = 2;
+	start = 0;
+	length = 126;
+	p = 1/4;
+}
+
 local track = 2
 local instr = "sine"
 track, instr = ...
@@ -158,7 +222,7 @@ track = tonumber(track) or 2
 instr = tostring(instr) or "sine"
 local freqshift = 0
 
-local tracks: {Track} = {t1, t2}
+local tracks: {Track} = {t1, t2, t3}
 local sel: Track = tracks[track]
 
 local char = owner.Character
@@ -256,6 +320,7 @@ function getrange(track: Track)
 	local min = 1000
 	for TIME = track.start, track.length, track.inc do
 		local cur = track.notes[TIME]
+		if not cur then continue end
 		for note = 1,#cur do
 			local val = cur[note]
 			if val > max then max = val end
@@ -301,6 +366,7 @@ end
 function addnotes()
 	for X = sel.start, sel.length, sel.inc do
 		local cur = sel.notes[X]
+		if not cur then continue end
 		for Y = 1,#cur do
 			newnote(X, cur[Y])
 		end
@@ -413,24 +479,29 @@ function play(during: (...any) -> nil?)
 		
 		local notes = sel.notes[TIME]
 		
-		during(TIME, notes)
-		for i = 1,#notes do
-			playnote(notes[i] + sel.tuning)
-			a(ind+i)
+		if notes then
+			during(TIME, notes)
+			for i = 1,#notes do
+				playnote(notes[i] + sel.tuning)
+				a(ind+i)
+			end
+
+			ind += #notes
+			prevlen = #notes
 		end
 		
-		ind += #notes
-		prevlen = #notes
 		task.wait(sel.p)
 		
 		if TIME == sel.length then for i = 0, prevlen-1 do b(ind-i) end end
 	end
 end
 
-function scroll(TIME, notes)
-	updinfo(TIME)
-	if TIME > 0.5/notewidth * sel.inc + sel.start then
-		hanger.Position = UDim2.fromScale(hanger.Position.X.Scale - notewidth, 0)
+function scroll(start)
+	local tlen = (sel.length - sel.start)/sel.inc + 1
+	local en = notewidth*tlen
+	if tlen > 16 then
+		task.wait(8*sel.p)
+		hanger:TweenPosition(UDim2.fromScale(-en+1,0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, (sel.p*tlen-16*sel.p)*1.06)
 	end
 end
 
@@ -442,7 +513,9 @@ end
 
 loadsounds()
 load()
-while task.wait() do
-	play(scroll)
+while true do
+	task.spawn(scroll, os.clock())
+	play(updinfo)
 	hanger.Position = UDim2.fromScale(0,0)
+	task.wait()
 end
