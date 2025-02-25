@@ -450,7 +450,7 @@ function playnote(pitch)
 		end)
 	end
 	
-	sound.Volume = 0.06
+	sound.Volume = 0.04
 	sound:Play()
 	
 	return sound
