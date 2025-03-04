@@ -30,7 +30,7 @@ local tool = owner.Backpack.Launcher
 local rem = game:GetService("ReplicatedStorage"):WaitForChild("Block")
 
 tool.Activated:Connect(function()
-	local mouse: Mouse = owner:GetMouse()
+	local mouse = owner:GetMouse()
 	local dir = mouse.Hit.Position - owner.Character.HumanoidRootPart.Position
 	rem:FireServer(dir)
 end)
