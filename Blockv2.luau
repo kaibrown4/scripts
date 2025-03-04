@@ -21,6 +21,7 @@ rem.OnServerEvent:Connect(function(plr, dir)
 	block.CFrame = CFrame.lookAlong(char.HumanoidRootPart.Position + dir.Unit*7, dir.Unit, Vector3.yAxis)
 	block.Velocity = dir.Unit*200 + char.HumanoidRootPart.Velocity
 	block.CustomPhysicalProperties = PhysicalProperties.new(100, 0, 100)
+	game:GetService("Debris"):AddItem(block, 15)
 end)
 
 NLS([[
