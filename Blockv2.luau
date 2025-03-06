@@ -15,7 +15,7 @@ handle.Name = "Handle"
 handle.Size = Vector3.one
 
 rem.OnServerEvent:Connect(function(plr, dir)
-	local block = Instance.new("Part", workspace)
+	local block = Instance.new("Part", script)
 	block:SetNetworkOwner(owner)
 	block.Size = Vector3.one*10
 	block.CFrame = CFrame.lookAlong(char.HumanoidRootPart.Position + dir.Unit*7, dir.Unit, Vector3.yAxis)
