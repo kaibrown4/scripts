@@ -13,6 +13,7 @@ local instruments = {
 	"sawtooth";
 	"triangle";
 	"bass";
+	"piano";
 }
 
 local sounds = {
@@ -21,6 +22,7 @@ local sounds = {
 	sawtooth = 9040512075;
 	triangle = 9085536418;
 	bass = 12221944;
+	piano = 584691395;
 }
 
 local durations = {
