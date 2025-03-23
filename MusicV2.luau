@@ -31,6 +31,7 @@ local durations = {
 	sawtooth = 1.5;
 	triangle = 1.5;
 	bass = 1;
+	piano = 1.5;
 }
 
 local t1: Track = {
