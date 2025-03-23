@@ -311,6 +311,7 @@ track = tonumber(track) or 2
 instr = tostring(instr) or "sine"
 local Nshift = 0
 local freqshift = 0
+local vol = 0.06
 
 local tracks: {Track} = {t1, t2, t3, t4}
 local sel: Track = tracks[track]
@@ -537,7 +538,7 @@ function playnote(pitch)
 		end)
 	end
 	
-	sound.Volume = 0.06
+	sound.Volume = vol
 	sound:Play()
 	
 	return sound
@@ -622,6 +623,13 @@ owner.Chatted:Connect(function(msg)
 			warn("invalid argument. instrument not found.")
 		else
 			instr = ainstr
+		end
+	elseif msg:sub(1, 5) == "vol: " then
+		local volu = tonumber(msg:sub(6))
+		if not vol then
+			warn("invalid argument. volume was not changed")
+		else
+			vol = volu
 		end
 	end
 end)
